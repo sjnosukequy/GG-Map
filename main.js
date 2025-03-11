@@ -7,7 +7,15 @@ function sleep(ms) {
 }
 
 async function start() {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath: 'google-chrome-stable'
+    });
     const page = await browser.newPage();
     return [page, browser];
 }
