@@ -14,7 +14,7 @@ async function start() {
             "--single-process",
             "--no-zygote",
         ],
-        executablePath: '/usr/bin/google-chrome-stable'
+        executablePath: puppeteer.executablePath('chrome'),
     });
     const page = await browser.newPage();
     return [page, browser];
