@@ -1,0 +1,13 @@
+https://www.google.com/maps/search/com+ga/@10.842814,106.687070,20z
+
+document.querySelector('[role="feed"]')
+
+document.querySelector('[role="feed"]').children[2].querySelector('.fontBodyMedium')
+
++ Ten document.querySelector('[role="feed"]').children[2].querySelector('.fontBodyMedium').children[0].innerText
++ rating document.querySelector('[role="feed"]').children[2].querySelector('.fontBodyMedium').children[2].querySelectorAll('[aria-hidden="true"]')[0].innerText
++ DCHI document.querySelector('[role="feed"]').children[2].querySelector('.fontBodyMedium').children[3].querySelectorAll('span')[4].innerText
++ IMG document.querySelector('[role="feed"]').children[2].querySelector('img').getAttribute('src')
+
+
+dir https://www.google.com/maps/dir/10.816931,106.779603/C%C6%A0M+G%C3%80+X%E1%BB%90I+M%E1%BB%A0+HAIANHEM,+137+%C4%90.+Qu%E1%BA%A3ng+H%C3%A0m,+Ph%C6%B0%E1%BB%9Dng+5,+TP%3EHCM,+H%E1%BB%93+Ch%C3%AD+Minh+727010
