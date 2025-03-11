@@ -56,85 +56,73 @@ const html = `
 
         <!-- Time Navigation -->
         <div class="flex justify-around mb-6 bg-white rounded-full p-2 shadow-sm">
-            <button class="time-btn px-6 py-2 rounded-full font-medium bg-blue-500 text-white">Morning</button>
-            <button class="time-btn px-6 py-2 rounded-full font-medium text-gray-500">Lunch</button>
-            <button class="time-btn px-6 py-2 rounded-full font-medium text-gray-500">Dinner</button>
+            <span class="px-6 py-2 rounded-full font-medium bg-blue-500 text-white">Morning</span>
+            <span class="px-6 py-2 rounded-full font-medium text-gray-500">Lunch</span>
+            <span class="px-6 py-2 rounded-full font-medium text-gray-500">Dinner</span>
         </div>
 
         <!-- Meal Cards Container -->
-        <div class="space-y-4 mb-6" id="meals-container">
-            <!-- Meal cards will be dynamically inserted here -->
+        <div class="space-y-4 mb-6">
+            <!-- Morning Meal 1 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+                <div class="flex gap-4">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-3xl">
+                        🥑
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800">Avocado Toast</h3>
+                        <p class="text-gray-500 text-sm">Cafe Sunrise</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-blue-500 text-sm font-medium">⭐ 4.8</span>
+                            <span class="text-gray-400 text-sm">•</span>
+                            <span class="text-gray-500 text-sm">0.8 km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Morning Meal 2 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+                <div class="flex gap-4">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-3xl">
+                        🍶
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800">Greek Yogurt Bowl</h3>
+                        <p class="text-gray-500 text-sm">Health Hub</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-blue-500 text-sm font-medium">⭐ 4.5</span>
+                            <span class="text-gray-400 text-sm">•</span>
+                            <span class="text-gray-500 text-sm">1.2 km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Morning Meal 3 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+                <div class="flex gap-4">
+                    <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-3xl">
+                        🥞
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800">Pancake Stack</h3>
+                        <p class="text-gray-500 text-sm">Morning Delight</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-blue-500 text-sm font-medium">⭐ 4.7</span>
+                            <span class="text-gray-400 text-sm">•</span>
+                            <span class="text-gray-500 text-sm">0.5 km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Map Section -->
-        <div class="bg-red-500 h-64 rounded-2xl shadow-lg">
-            <!-- Map placeholder -->
-            <div class="w-full h-full flex items-center justify-center text-white font-bold">
-                MAP AREA
-            </div>
+        <div class="bg-red-500 h-64 rounded-2xl shadow-lg flex items-center justify-center text-white font-bold">
+            MAP AREA
         </div>
     </div>
-
-    <script>
-        // Mock API Data
-        const mockApi = {
-            morning: [
-                { name: "Avocado Toast", place: "Cafe Sunrise", rating: 4.8, distance: 0.8, image: "🥑" },
-                { name: "Greek Yogurt Bowl", place: "Health Hub", rating: 4.5, distance: 1.2, image: "🍶" },
-                { name: "Pancake Stack", place: "Morning Delight", rating: 4.7, distance: 0.5, image: "🥞" }
-            ],
-            lunch: [
-                { name: "Grilled Chicken", place: "Protein Palace", rating: 4.6, distance: 0.9, image: "🍗" },
-                { name: "Sushi Combo", place: "Tokyo Kitchen", rating: 4.9, distance: 1.5, image: "🍣" },
-                { name: "Burger Meal", place: "American Diner", rating: 4.4, distance: 0.7, image: "🍔" }
-            ],
-            dinner: [
-                { name: "Steak Dinner", place: "Prime Cut", rating: 4.7, distance: 1.1, image: "🥩" },
-                { name: "Pasta Carbonara", place: "Italian Corner", rating: 4.8, distance: 0.6, image: "🍝" },
-                { name: "Sushi Platter", place: "Sakura House", rating: 4.9, distance: 1.3, image: "🍱" }
-            ]
-        };
-
-        // Function to render meals
-        function renderMeals(time) {
-            const container = document.getElementById('meals-container');
-            container.innerHTML = mockApi[time].map(meal => \`
-  < div class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-shadow" >
-    <div class="flex gap-4">
-      <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-3xl">
-        ${meal.image}
-      </div>
-      <div class="flex-1">
-        <h3 class="font-bold text-gray-800">${meal.name}</h3>
-        <p class="text-gray-500 text-sm">${meal.place}</p>
-        <div class="flex items-center gap-2 mt-2">
-          <span class="text-blue-500 text-sm font-medium">⭐ ${meal.rating}</span>
-          <span class="text-gray-400 text-sm">•</span>
-          <span class="text-gray-500 text-sm">${meal.distance} km</span>
-        </div>
-      </div>
-    </div>
-                </ >
-  \`).join('');
-        }
-
-        // Tab switching functionality
-        document.querySelectorAll('.time-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.time-btn').forEach(b => {
-                    b.classList.remove('bg-blue-500', 'text-white');
-                    b.classList.add('text-gray-500');
-                });
-                btn.classList.add('bg-blue-500', 'text-white');
-                btn.classList.remove('text-gray-500');
-                const time = btn.textContent.toLowerCase();
-                renderMeals(time);
-            });
-        });
-
-        // Initial load
-        window.onload = () => renderMeals('morning');
-    </script>
 </body>
 </html>
 `
