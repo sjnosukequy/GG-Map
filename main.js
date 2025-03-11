@@ -14,7 +14,7 @@ async function start() {
             "--single-process",
             "--no-zygote",
         ],
-        executablePath: 'google-chrome-stable'
+        executablePath: '/usr/bin/google-chrome-stable'
     });
     const page = await browser.newPage();
     return [page, browser];
