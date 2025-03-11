@@ -7,5 +7,6 @@ COPY package*.json ./
 COPY yarn*.lock ./
 
 RUN yarn install --frozen-lockfile
+CMD ["ls", '/usr/bin']
 COPY . .
 CMD [ "node", "app.js" ]
