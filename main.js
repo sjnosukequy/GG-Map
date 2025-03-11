@@ -8,13 +8,6 @@ function sleep(ms) {
 
 async function start() {
     const browser = await puppeteer.launch({
-        args: [
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-            "--single-process",
-            "--no-zygote",
-        ],
-        executablePath: '/usr/bin/google-chrome',
     });
     const page = await browser.newPage();
     return [page, browser];
