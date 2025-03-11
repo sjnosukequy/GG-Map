@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 10000;
 const { SearchMap } = require('./main.js');
 
 // app.get("/", (req, res) => res.type('html').send(html));
