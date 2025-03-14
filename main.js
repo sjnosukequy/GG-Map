@@ -57,7 +57,8 @@ async function SearchMap(lat, lng, querry) {
 
                     let address = ''
                     let addressEl = lists[i].querySelector('.fontBodyMedium').children[3].querySelectorAll('span')
-                    if (addressEl.length > 9) {
+                    let symbols =lists[i].querySelector('.fontBodyMedium').children[3].querySelector('span .google-symbols')
+                    if (symbols) {
                         address = addressEl[8].innerText
                     }
                     else
