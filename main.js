@@ -8,6 +8,7 @@ function sleep(ms) {
 
 async function start() {
     const browser = await puppeteer.launch({
+        headless: false,
         // args: [
         //     "--disable-setuid-sandbox",
         //     "--no-sandbox",
@@ -25,14 +26,16 @@ async function SearchMap(lat, lng, querry) {
     const page = obj[0];
     const browser = obj[1];
     try {
-        await page.goto(`https://www.google.com/maps/search/${encodeURI(querry)}/@${lat},${lng},20z`);
+        await page.goto(`https://www.google.com/maps/search/${encodeURIComponent(querry)}/@${lat},${lng},20z`);
 
         // Set screen size.
         await page.setViewport({ width: 1080, height: 1024 });
 
         // Type into search box.
-        await sleep(3000);
-        await page.locator('[role="feed"]').scroll();
+        await sleep(2000);
+        await page.locator('[role="feed"]').scroll({ scrollTop: 10000 });
+        await sleep(2000);
+
 
 
         // Wait and click on first result.
@@ -48,6 +51,11 @@ async function SearchMap(lat, lng, querry) {
             for (let i = 2; i < lists.length; i += 2) {
 
                 try {
+                    let href = lists[i].querySelector('a').getAttribute('href')
+                    let hrefData = href.split('/data=')[1]
+                    let href_lat = hrefData.split('!')[5].split('d')[1]
+                    let href_lng = hrefData.split('!')[6].split('d')[1]
+
                     let address = ''
                     let addressEl = lists[i].querySelector('.fontBodyMedium').children[3].querySelectorAll('span')
                     if (addressEl.length > 9) {
@@ -65,13 +73,19 @@ async function SearchMap(lat, lng, querry) {
                         rating = 'No ratings'
 
                     let name = lists[i].querySelector('.fontBodyMedium').children[0].innerText
-                    let ggMap = `https://www.google.com/maps/dir/${lat},${lng}/${encodeURI(name + ' ' + address)}`
+                    let ggMap = `https://www.google.com/maps/dir/${lat},${lng}/${encodeURIComponent(name + ' ' + address)}`
+                    let ggMap2 = `https://www.google.com/maps/dir/${lat},${lng}/${href_lat},${href_lng}`
                     data.push({
                         restaurant: name,
                         rating: rating,
                         address: address,
                         image: lists[i].querySelector('img').getAttribute('src'),
-                        ggMap: ggMap
+                        ggMap: ggMap,
+                        ggMap2: ggMap2,
+                        geolocation: {
+                            lat: href_lat,
+                            lng: href_lng
+                        }
                     })
                 }
                 catch (e) {
