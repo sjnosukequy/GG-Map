@@ -15,8 +15,19 @@ async function start() {
         //     "--no-zygote",
         // ],
         // executablePath: '/opt/google/chrome/chrome',
+        headless: false,
+
     });
     const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+        if (req.resourceType() == 'stylesheet' || req.resourceType() == 'font') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
     return [page, browser];
 }
 
@@ -28,7 +39,7 @@ async function SearchMap(lat, lng, querry) {
         await page.goto(`https://www.google.com/maps/search/${encodeURIComponent(querry)}/@${lat},${lng},20z`);
 
         // Set screen size.
-        await page.setViewport({ width: 1080, height: 1024 });
+        await page.setViewport({ width: 1920, height: 1080 });
 
         // Type into search box.
         await sleep(2000);
@@ -57,7 +68,7 @@ async function SearchMap(lat, lng, querry) {
 
                     let address = ''
                     let addressEl = lists[i].querySelector('.fontBodyMedium').children[3].querySelectorAll('span')
-                    let symbols =lists[i].querySelector('.fontBodyMedium').children[3].querySelector('span .google-symbols')
+                    let symbols = lists[i].querySelector('.fontBodyMedium').children[3].querySelector('span .google-symbols')
                     if (symbols) {
                         address = addressEl[8].innerText
                     }

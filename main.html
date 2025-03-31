@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise Recommendations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Fix for aspect ratio */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg relative pb-16">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 sticky top-0 z-10">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold">Your Exercise Plan</h1>
+        <button class="rounded-full bg-white p-2">
+          <i class="fas fa-user text-indigo-600"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pb-20">
+      <!-- Featured Video Section -->
+      <div class="bg-indigo-50 p-4">
+        <h2 class="text-lg font-semibold mb-2 text-indigo-800">Today's Workout</h2>
+        <div class="rounded-lg overflow-hidden shadow-md mb-4 video-container">
+          <iframe 
+            id="featured-video"
+            src="https://www.youtube.com/embed/enYITYwvPAQ" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 id="featured-title" class="font-bold text-indigo-900">Brisk Walking</h3>
+            <p id="featured-details" class="text-sm text-gray-600">65 minutes • Medium Intensity</p>
+          </div>
+          <button class="bg-indigo-600 text-white rounded-full px-4 py-2 text-sm font-semibold">
+            Start Now
+          </button>
+        </div>
+      </div>
+      
+      <!-- Exercise Details Panel (Initially Hidden) -->
+      <div id="exercise-details-panel" class="hidden p-4 bg-white border-b border-gray-200">
+        <div class="flex justify-between mb-3">
+          <h3 class="font-bold text-gray-800">Exercise Details</h3>
+          <button id="close-details" class="text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="exercise-details-content">
+          <!-- Content will be inserted dynamically -->
+        </div>
+      </div>
+      
+      <!-- Exercise Recommendations -->
+      <div class="p-4">
+        <h2 class="text-lg font-semibold mb-4 text-gray-800">Recommended Exercises</h2>
+        
+        <!-- Intensity Level Tabs -->
+        <div class="mb-4 border-b border-gray-200">
+          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="intensity-tabs" role="tablist">
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-3 border-b-2 border-indigo-600 rounded-t-lg text-indigo-600 active" id="all-tab" data-intensity="all" type="button" role="tab">All</button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="low-tab" data-intensity="Low" type="button" role="tab">Low</button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="medium-tab" data-intensity="Medium" type="button" role="tab">Medium</button>
+            </li>
+            <li role="presentation">
+              <button class="inline-block p-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="high-tab" data-intensity="Hard" type="button" role="tab">Hard</button>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Exercise Cards -->
+        <div id="exercise-cards" class="space-y-4">
+          <!-- Exercise cards will be dynamically generated -->
+        </div>
+      </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-200 px-4 py-3 flex justify-between items-center">
+      <a href="#" class="flex flex-col items-center text-indigo-600">
+        <i class="fas fa-home text-lg"></i>
+        <span class="text-xs mt-1">Home</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-500">
+        <i class="fas fa-search text-lg"></i>
+        <span class="text-xs mt-1">Discover</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-500">
+        <i class="fas fa-calendar-alt text-lg"></i>
+        <span class="text-xs mt-1">Schedule</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-500">
+        <i class="fas fa-chart-line text-lg"></i>
+        <span class="text-xs mt-1">Progress</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    // Exercise data
+    const exerciseData = {
+      "exerciseRecommendations": [
+        {
+          "exerciseName": "Brisk Walking",
+          "duration": "65 minutes",
+          "instructions": "Maintain a pace that elevates your heart rate but still allows you to hold a conversation. Walk on a flat surface, either outdoors or on a treadmill. Focus on good posture: stand tall, shoulders relaxed, and engage your core.",
+          "videoUrl": "https://www.youtube.com/watch?v=enYITYwvPAQ",
+          "caloriesBurned": 350,
+          "intensityLevel": "Medium",
+          "healthBenefits": ["Improved cardiovascular health", "Enhanced mood", "Increased bone density"],
+          "exerciseType": "Cardio",
+          "equipmentNeeded": ["Comfortable walking shoes"]
+        },
+        {
+          "exerciseName": "Cycling",
+          "duration": "30 minutes",
+          "instructions": "Cycle at a moderate pace on a stationary bike or outdoors. Adjust the resistance to a level where you feel challenged but can maintain a steady rhythm. Keep your back straight and engage your core muscles.",
+          "videoUrl": "https://www.youtube.com/watch?v=YWb0IxZ_Q6M",
+          "caloriesBurned": 150,
+          "intensityLevel": "Medium",
+          "healthBenefits": ["Strengthens leg muscles", "Improves joint mobility", "Reduces stress"],
+          "exerciseType": "Cardio",
+          "equipmentNeeded": ["Bicycle or stationary bike"]
+        },
+        {
+          "exerciseName": "Bodyweight Squats",
+          "duration": "10 minutes",
+          "instructions": "Stand with feet shoulder-width apart, toes slightly outward. Lower your hips as if sitting in a chair, keeping your back straight and chest up. Push through your heels to return to standing. Avoid letting your knees go past your toes.",
+          "videoUrl": "https://www.youtube.com/watch?v=O-ZWUsm7PnU",
+          "caloriesBurned": 51,
+          "intensityLevel": "Low",
+          "healthBenefits": ["Strengthens core muscles", "Improves balance and coordination", "Enhance flexibility"],
+          "exerciseType": "Strength",
+          "equipmentNeeded": []
+        }
+      ]
+    };
+    
+    // Helper function to convert YouTube URL to embed URL
+    function getYouTubeEmbedUrl(url) {
+      const videoId = url.split('v=')[1];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    
+    // Function to generate exercise cards
+    function generateExerciseCards(intensity = 'all') {
+      const cardsContainer = document.getElementById('exercise-cards');
+      cardsContainer.innerHTML = '';
+      
+      exerciseData.exerciseRecommendations.forEach(exercise => {
+        if (intensity === 'all' || exercise.intensityLevel === intensity) {
+          const iconClass = exercise.exerciseType === 'Cardio' ? 
+            (exercise.exerciseName === 'Brisk Walking' ? 'fa-walking' : 'fa-biking') : 
+            'fa-dumbbell';
+          
+          const typeColorClass = exercise.exerciseType === 'Cardio' ? 
+            'bg-indigo-50 text-indigo-700' : 'bg-red-50 text-red-700';
+          
+          const card = document.createElement('div');
+          card.className = 'bg-white rounded-xl shadow p-4 border border-gray-100 cursor-pointer hover:shadow-md transition-shadow';
+          card.setAttribute('data-exercise-name', exercise.exerciseName);
+          
+          card.innerHTML = `
+            <div class="flex items-start">
+              <div class="bg-indigo-100 rounded-lg p-3 mr-4">
+                <i class="fas ${iconClass} text-indigo-600 text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-900">${exercise.exerciseName}</h3>
+                <div class="flex flex-wrap gap-2 my-2">
+                  <span class="${typeColorClass} text-xs px-2 py-1 rounded-full">${exercise.exerciseType}</span>
+                  <span class="bg-gray-50 text-gray-700 text-xs px-2 py-1 rounded-full">${exercise.duration}</span>
+                  <span class="bg-yellow-50 text-yellow-700 text-xs px-2 py-1 rounded-full">${exercise.caloriesBurned} cal</span>
+                  <span class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-full">${exercise.intensityLevel}</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-3">${exercise.instructions.split('.')[0]}.</p>
+              </div>
+            </div>
+          `;
+          
+          cardsContainer.appendChild(card);
+          
+          // Add click event to card
+          card.addEventListener('click', () => {
+            updateFeaturedExercise(exercise);
+            showExerciseDetails(exercise);
+          });
+        }
+      });
+    }
+    
+    // Function to update the featured exercise
+    function updateFeaturedExercise(exercise) {
+      document.getElementById('featured-video').src = getYouTubeEmbedUrl(exercise.videoUrl);
+      document.getElementById('featured-title').textContent = exercise.exerciseName;
+      document.getElementById('featured-details').textContent = `${exercise.duration} • ${exercise.intensityLevel} Intensity`;
+      
+      // Scroll to top to show the video
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Function to show exercise details panel
+    function showExerciseDetails(exercise) {
+      const detailsPanel = document.getElementById('exercise-details-panel');
+      const detailsContent = document.getElementById('exercise-details-content');
+      
+      // Generate equipment list
+      let equipmentHTML = '';
+      if (exercise.equipmentNeeded && exercise.equipmentNeeded.length > 0) {
+        equipmentHTML = `
+          <div class="mb-3">
+            <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Equipment Needed</h4>
+            <div class="flex flex-wrap gap-1">
+              ${exercise.equipmentNeeded.map(item => 
+                `<span class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full">${item}</span>`
+              ).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      detailsContent.innerHTML = `
+        <p class="text-sm text-gray-600 mb-3">${exercise.instructions}</p>
+        
+        <div class="mb-3">
+          <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Health Benefits</h4>
+          <div class="flex flex-wrap gap-1">
+            ${exercise.healthBenefits.map(benefit => 
+              `<span class="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-full">${benefit}</span>`
+            ).join('')}
+          </div>
+        </div>
+        
+        ${equipmentHTML}
+        
+        <div class="mb-3">
+          <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Stats</h4>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-gray-50 p-2 rounded-lg text-center">
+              <div class="text-gray-500 text-xs">Duration</div>
+              <div class="font-bold text-gray-800">${exercise.duration}</div>
+            </div>
+            <div class="bg-gray-50 p-2 rounded-lg text-center">
+              <div class="text-gray-500 text-xs">Calories</div>
+              <div class="font-bold text-gray-800">${exercise.caloriesBurned}</div>
+            </div>
+            <div class="bg-gray-50 p-2 rounded-lg text-center">
+              <div class="text-gray-500 text-xs">Intensity</div>
+              <div class="font-bold text-gray-800">${exercise.intensityLevel}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      detailsPanel.classList.remove('hidden');
+    }
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Generate initial cards
+      generateExerciseCards();
+      
+      // Set up intensity tab functionality
+      const tabs = document.querySelectorAll('#intensity-tabs button');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          tabs.forEach(t => {
+            t.classList.remove('border-indigo-600', 'text-indigo-600');
+            t.classList.add('border-transparent');
+          });
+          
+          // Add active class to clicked tab
+          tab.classList.add('border-indigo-600', 'text-indigo-600');
+          tab.classList.remove('border-transparent');
+          
+          // Generate cards based on selected intensity
+          const intensity = tab.getAttribute('data-intensity');
+          generateExerciseCards(intensity);
+        });
+      });
+      
+      // Set up close button for details panel
+      document.getElementById('close-details').addEventListener('click', () => {
+        document.getElementById('exercise-details-panel').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
