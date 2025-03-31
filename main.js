@@ -15,8 +15,6 @@ async function start() {
         //     "--no-zygote",
         // ],
         // executablePath: '/opt/google/chrome/chrome',
-        headless: false,
-
     });
     const page = await browser.newPage();
     await page.setRequestInterception(true);
