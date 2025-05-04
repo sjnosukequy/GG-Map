@@ -8,13 +8,14 @@ function sleep(ms) {
 
 async function start() {
     const browser = await puppeteer.launch({
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--no-zygote",
+            '--use-gl=swiftshader',
+        ],
         // executablePath: '/opt/google/chrome/chrome',
+        headless: true,
     });
     const page = await browser.newPage();
     await page.setRequestInterception(true);
@@ -88,7 +89,7 @@ async function SearchMap(lat, lng, querry) {
                         restaurant: name,
                         rating: rating,
                         address: address,
-                        image: lists[i].querySelector('img').getAttribute('src'),
+                        image: lists[i].querySelector('img')?.getAttribute('src') ? lists[i].querySelector('img').getAttribute('src') : '',
                         ggMap: ggMap,
                         ggMap2: ggMap2,
                         geolocation: {
